@@ -74,8 +74,11 @@ void Renderer::ProcessInput(GLFWwindow* window)
 
 void Renderer::Render(Scene &scene)
 {
-    scene.BindTextures();
-    scene.SendLightsToShaders();
+
+    for (int i = 0; i < scene.models.size(); i++)
+    {
+        this->imgui.AddModelAttribute(scene.models[i]);
+    }
     
     while(!this->GetWindowShouldClose())
     {
@@ -91,12 +94,44 @@ void Renderer::Render(Scene &scene)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        // Draw Meshes in this Scene
+        if (glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0)
+        {
+            this->imgui.Sleep();
+            continue;
+        }
+        
+        this->imgui.NewFrame();
+        
+        this->imgui.DrawCameraWidget(&this->camera);
+        
+        // Draw Models in this Scene
+        for (int i = 0; i < scene.models.size(); i++)
+        {
+            
+            Model &model = *scene.models[i];
+            
+            scene.SendLightsToShader(model.GetShader());
+            
+            model.Draw(this->camera);
+        }
+        
+        imgui.Render();
+        
+        /*
+        // Bind Textures (for meshes not from models)
+        scene.BindTextures();
+        
+        //Draw Meshes in this Scene
+        
         for (int i = 0; i < scene.meshes.size(); i++)
         {
             Mesh &mesh = *scene.meshes[i];
+            
+            scene.SendLightsToShader(mesh.GetShader());
+            
             mesh.Draw(this->camera);
         }
+        */
         
         glfwSwapBuffers(window);
     }
@@ -164,21 +199,6 @@ void Renderer::InitCamera()
     camera.SetAspectRatio(float(WINDOW_WIDTH)/float(WINDOW_HEIGHT));
 }
 
-void Renderer::InitImGui()
-{
-    // ImGui
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-    
-    ImGui::StyleColorsLight();
-    
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
-}
-
 void Renderer::InitCallbacks()
 {
     CallbackWrapper::SetRenderer(this);
@@ -188,6 +208,11 @@ void Renderer::InitCallbacks()
     glfwSetCursorPosCallback(this->window, CallbackWrapper::mouse_pos_callback);
     glfwSetMouseButtonCallback(this->window, CallbackWrapper::mouse_button_callback);
     glfwSetScrollCallback(this->window, CallbackWrapper::scroll_callback);
+}
+
+void Renderer::InitImGui()
+{
+    this->imgui = MyImGui(this->window, this->glsl_version);
 }
 
 // Private Class : CallbackWrapper

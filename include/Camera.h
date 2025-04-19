@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include "Shader.h"
+
 enum Camera_Mode
 {
     EDIT,
@@ -53,6 +55,8 @@ public:
     void ProcessMouseSpin(double xoffset, double yoffset);
     void ProcessMouseScroll(float yoffset);
     
+    void SendPositionToShader(Shader* shader) const;
+    
 private:
     Camera_Mode mode = EDIT;
     
@@ -63,7 +67,7 @@ private:
     const glm::vec3 worldUp  = glm::vec3(0.0f, 1.0f, 0.0f);
     
     float nearPlane = 0.1f;
-    float farPlane = 10.0f;
+    float farPlane = 20.0f;
     
     float yaw   = -90.0f;
     float pitch =   0.0f;

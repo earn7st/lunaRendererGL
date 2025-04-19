@@ -14,21 +14,29 @@ void Scene::AddMaterial(Material *material) { this->materials.push_back(material
 
 void Scene::AddDirectionalLight(DirectionalLight *light) { this->directional_lights.push_back(light); }
 
-void Scene::AddShader(Shader *shader) { this->shaders.push_back(shader); }
-
-void Scene::SendLightsToShaders()
+void Scene::AddModel(Model* model)
 {
-    // Directional
-    for (int i = 0; i < this->shaders.size(); i++)
+    this->models.push_back(model);
+    for (int i = 0; i < model->GetNumOfMaterials(); i++)
     {
-        Shader &shader = *(this->shaders[i]);
-        // shader.SetInt("nrOfDirectionalLight", int(this->directional_lights.size()) );
-        for (int j = 0; j < this->directional_lights.size(); j++)
-        {
-            DirectionalLight &directional_light = *(this->directional_lights[j]);
-            directional_light.SendToShader(shader, j);
-        }
+        this->materials.push_back(model->GetMaterial(i));
     }
 }
 
-void Scene::BindTextures() { for (int i = 0; i < this->textures.size(); i++) { (*this->textures[i]).Bind(); } }
+void Scene::SendLightsToShader(Shader* shader)
+{
+    // Directional
+    for (int j = 0; j < this->directional_lights.size(); j++)
+    {
+        DirectionalLight &directional_light = *(this->directional_lights[j]);
+        directional_light.SendToShader(shader, j);
+    }
+}
+
+void Scene::BindTextures()
+{
+    for (int i = 0; i < this->textures.size(); i++)
+    {
+        (*this->textures[i]).Bind();
+    }
+}

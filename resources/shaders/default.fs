@@ -10,10 +10,12 @@ uniform vec3 viewPos;
 struct Material
 {
     vec3 ambient;
-    vec3 diffuse;
+    vec3 diffuse; 
     vec3 specular;
+    sampler2D baseColorTex;
     sampler2D diffuseTex;
     sampler2D specularTex;
+    sampler2D normalsTex;
     float shininess;
 };
 uniform Material material;
@@ -23,7 +25,7 @@ struct DirectionalLight
     vec3 direction;
     vec3 color;
 };
-#define nrOfDirectionalLight 4
+#define nrOfDirectionalLight 2
 uniform DirectionalLight directional[nrOfDirectionalLight];
 
 vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
@@ -46,7 +48,11 @@ void main()
 vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
 {
     vec3 reflectDir = reflect(-light.direction, normal);
-    vec3 albedo = vec3(texture(material.diffuseTex, texcoord));
+    
+    vec3 albedo = vec3(.5);
+    
+    // albedo = vec3(texture(material.baseColorTex, texcoord));
+    
     vec3 halfwayDir = normalize(viewDir + light.direction);
     
     vec3 ambient = light.color * albedo;
@@ -62,7 +68,8 @@ vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
     // Blinn-Phong
     float spec = pow(max(dot(halfwayDir, normal), 0.0), material.shininess);
     vec3 specular = light.color * spec;
+    // specular *= vec3(texture(material.specularTex, texcoord));
     specular = specular * material.specular;
     
-    return ambient + diffuse + specular;
+    return ambient + diffuse;
 }

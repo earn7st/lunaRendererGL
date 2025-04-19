@@ -5,6 +5,7 @@
 
 #include "libs.h"
 
+#include "MyImGui.h"
 #include "Camera.h"
 #include "Scene.h"
 
@@ -30,14 +31,14 @@ public:
     
 // Functions
     void ProcessInput(GLFWwindow *window);
-
+    
     void Render(Scene &scene);
     
 // Static functions
 private:
 //Variables
     // Window
-    GLFWwindow *window;
+    GLFWwindow* window;
     const int WINDOW_WIDTH;
     const int WINDOW_HEIGHT;
     int framebufferWidth;
@@ -60,7 +61,8 @@ private:
     float lastFrame = 0.0f;
     
     // ImGui
-    const char* glsl_version = "#version 330";
+    MyImGui imgui;
+    const char* glsl_version = "#version 150";
     
     // Callback Wrapper
     class CallbackWrapper

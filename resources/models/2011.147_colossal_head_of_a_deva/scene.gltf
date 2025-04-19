@@ -1,0 +1,333 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        -0.010696000419557095,
+        1.7298450469970703,
+        0.5339360237121582
+      ],
+      "min": [
+        -0.4832800030708313,
+        1.2485589981079102,
+        -0.17477700114250183
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 786384,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9999889135360718,
+        0.9999979138374329,
+        0.9999925494194031
+      ],
+      "min": [
+        -0.9999911189079285,
+        -0.9999992847442627,
+        -0.9999967813491821
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9999825358390808,
+        0.9999087452888489,
+        0.9999711513519287,
+        1.0
+      ],
+      "min": [
+        -0.999970018863678,
+        -0.9999950528144836,
+        -0.9999839663505554,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9997490048408508,
+        0.9696959853172302
+      ],
+      "min": [
+        0.0034050000831484795,
+        0.010464999824762344
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 354822,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 1572768,
+      "componentType": 5126,
+      "count": 24631,
+      "max": [
+        -0.011490999720990658,
+        1.7308369874954224,
+        0.5853599905967712
+      ],
+      "min": [
+        -0.4824250042438507,
+        1.2501989603042603,
+        -0.17394299805164337
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 1868340,
+      "componentType": 5126,
+      "count": 24631,
+      "max": [
+        0.9999955296516418,
+        0.9999762177467346,
+        0.9999889731407166
+      ],
+      "min": [
+        -0.9999440908432007,
+        -0.9999521374702454,
+        -0.9999802708625793
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 1048512,
+      "componentType": 5126,
+      "count": 24631,
+      "max": [
+        0.9999989867210388,
+        0.9998956322669983,
+        0.9999546408653259,
+        1.0
+      ],
+      "min": [
+        -0.9999883770942688,
+        -0.999972403049469,
+        -0.9997016787528992,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 524256,
+      "componentType": 5126,
+      "count": 24631,
+      "max": [
+        0.9999139904975891,
+        0.9679290056228638
+      ],
+      "min": [
+        8.299999899463728e-05,
+        0.00048499999684281647
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1419288,
+      "componentType": 5125,
+      "count": 95532,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Cleveland Museum of Art (https://sketchfab.com/clevelandart)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/2011147-colossal-head-of-a-deva-2413aa3cdb504a368b58b47e5fbefe08",
+      "title": "2011.147 Colossal Head of a Deva"
+    },
+    "generator": "Sketchfab-16.64.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 1801416,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 721304,
+      "byteOffset": 1801416,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 2163912,
+      "byteOffset": 2522720,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1442608,
+      "byteOffset": 4686632,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 6129240,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/2011.147_Colossal_Head_of_a_Deva_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/2011.147_Colossal_Head_of_a_Deva_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/2011.147_Colossal_Head_of_a_Deva_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "2011.147_Colossal_Head_of_a_Deva",
+      "normalTexture": {
+        "index": 2
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0,
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TANGENT": 7,
+            "TEXCOORD_0": 8
+          },
+          "indices": 9,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        0.8442223072052002,
+        0.07195285707712162,
+        0.5311416387557983,
+        0.0,
+        0.5292229652404785,
+        0.04510553926229496,
+        -0.8472830653190613,
+        0.0,
+        -0.08492186665534973,
+        0.9963876008987427,
+        2.2124249119376109e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3
+      ],
+      "name": "2011.147 Colossal Head of a Deva.obj.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}

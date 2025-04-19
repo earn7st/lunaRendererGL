@@ -43,11 +43,17 @@ Mesh::Mesh(const Primitive& primitive)
     InitVAO();
 }
 
-Mesh::~Mesh()
+Mesh::Mesh(const std::vector<Vertex> &Vertices, const std::vector<GLuint> &Indices)
 {
-    glCall(glDeleteVertexArrays(1, &this->VAO));
-    glCall(glDeleteBuffers(1, &this->VBO));
-    glCall(glDeleteBuffers(1, &this->EBO));
+    for (size_t i = 0; i < Vertices.size(); i++)
+    {
+        this->vertices.push_back(Vertices[i]);
+    }
+    for (size_t i = 0; i < Indices.size(); i++)
+    {
+        this->indices.push_back(Indices[i]);
+    }
+    InitVAO();
 }
 
 void Mesh::InitVAO()
@@ -78,25 +84,19 @@ void Mesh::InitVAO()
     glCall(glBindVertexArray(0));
 }
 
-inline size_t Mesh::GetVerticesCount() const
-{
-    return this->vertices.size();
-}
+// Accessors
+size_t Mesh::GetVerticesCount() const { return this->vertices.size(); }
+size_t Mesh::GetIndicesCount() const { return this->indices.size(); }
+unsigned int Mesh::GetVAO() const { return this->VAO; }
 
-inline size_t Mesh::GetIndicesCount() const
-{
-    return this->indices.size();
-}
+Shader* Mesh::GetShader() { return this->shader; }
+Material* Mesh::GetMaterial() { return this->material; }
 
-void Mesh::SetShader(Shader *shader)
-{
-    this->shader = shader;
-}
 
-void Mesh::SetMaterial(Material *material)
-{
-    this->material = material;
-}
+// Modifiers
+void Mesh::SetShader(Shader *shader) { this->shader = shader; }
+void Mesh::SetMaterial(Material *material) { this->material = material; }
+void Mesh::SetTransform(Transform &transform) { this->transform = transform; }
 
 void Mesh::UpdateModelMatrix()
 {
@@ -133,12 +133,17 @@ void Mesh::Draw(const Camera& camera)
     this->UpdateMVP(camera);
     
     // Set Material
-    (*this->material).SendToShader((*this->shader));
+    (*this->material).SendToShader(this->shader);
+    
+    // Set Camera-related Uniforms
+    camera.SendPositionToShader(this->shader);
     
     // Bind VAO
-    glCall(glBindVertexArray(VAO));
+    glCall(glBindVertexArray(this->VAO));
     
-    // Renderer
+    // Render
+    //glCall(glDrawArrays(GL_TRIANGLES, 0, (GLsizei)this->vertices.size() * sizeof(Vertex)));
+    
     if (this->indices.empty())
     {
         glCall(glDrawArrays(GL_TRIANGLES, 0, (GLsizei)this->vertices.size() * sizeof(Vertex)));
@@ -146,4 +151,12 @@ void Mesh::Draw(const Camera& camera)
         glCall(glDrawElements(GL_TRIANGLES, (GLsizei)this->indices.size(), GL_UNSIGNED_INT, (GLvoid*)0));
     }
 
+}
+
+void Mesh::PrintInfo()
+{
+    std::cout << "NumOfVertices:" << this->vertices.size() << std::endl;
+    std::cout << "NumOfIndices:" << this->indices.size() << std::endl;
+    std::cout << "VAO:" << this->VAO << std::endl;
+    std::cout << "Shader:" << this->shader << std::endl;
 }

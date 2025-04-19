@@ -25,7 +25,7 @@ public:
     ~DirectionalLight() = default;
     
     // Functions
-    void SendToShader(Shader &shader, int index) const;
+    void SendToShader(Shader* shader, int index) const;
     
 private:
     glm::vec3 direction;

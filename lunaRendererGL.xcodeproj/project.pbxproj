@@ -33,6 +33,7 @@
 		C61BA87A2D9A1D85003EA6CE /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
 		C65AE4EC2D98E63700A988AB /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		C65AE4ED2D98E6DE00A988AB /* Renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
+		C65FC69C2DA93EDC00848871 /* MyImGui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyImGui.h; sourceTree = "<group>"; };
 		C661D1AB2D918EEE007CC808 /* lunaRendererGL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lunaRendererGL; sourceTree = BUILT_PRODUCTS_DIR; };
 		C661D1B62D918F13007CC808 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C661D1B82D918F18007CC808 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -45,6 +46,43 @@
 		C661D1CE2D9192F5007CC808 /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		C67E19E42D9D0C62001ED9DB /* libs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libs.h; sourceTree = "<group>"; };
 		C67E19E52D9D118D001ED9DB /* ErrorHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorHandler.h; sourceTree = "<group>"; };
+		C686581B2DA6E50F00C5F0C6 /* bun.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun.conf; sourceTree = "<group>"; };
+		C686581C2DA6E50F00C5F0C6 /* bun000.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun000.ply; sourceTree = "<group>"; };
+		C686581D2DA6E50F00C5F0C6 /* bun045.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun045.ply; sourceTree = "<group>"; };
+		C686581E2DA6E50F00C5F0C6 /* bun090.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun090.ply; sourceTree = "<group>"; };
+		C686581F2DA6E50F00C5F0C6 /* bun180.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun180.ply; sourceTree = "<group>"; };
+		C68658202DA6E50F00C5F0C6 /* bun270.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun270.ply; sourceTree = "<group>"; };
+		C68658212DA6E50F00C5F0C6 /* bun315.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun315.ply; sourceTree = "<group>"; };
+		C68658222DA6E50F00C5F0C6 /* chin.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = chin.ply; sourceTree = "<group>"; };
+		C68658232DA6E50F00C5F0C6 /* ear_back.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = ear_back.ply; sourceTree = "<group>"; };
+		C68658242DA6E50F00C5F0C6 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		C68658252DA6E50F00C5F0C6 /* top2.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = top2.ply; sourceTree = "<group>"; };
+		C68658262DA6E50F00C5F0C6 /* top3.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = top3.ply; sourceTree = "<group>"; };
+		C68658282DA6E50F00C5F0C6 /* bun_zipper.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun_zipper.ply; sourceTree = "<group>"; };
+		C68658292DA6E50F00C5F0C6 /* bun_zipper_res2.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun_zipper_res2.ply; sourceTree = "<group>"; };
+		C686582A2DA6E50F00C5F0C6 /* bun_zipper_res3.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun_zipper_res3.ply; sourceTree = "<group>"; };
+		C686582B2DA6E50F00C5F0C6 /* bun_zipper_res4.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = bun_zipper_res4.ply; sourceTree = "<group>"; };
+		C686582C2DA6E50F00C5F0C6 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		C686582E2DA6E50F00C5F0C6 /* bunny.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bunny.obj; sourceTree = "<group>"; };
+		C686582F2DA6E50F00C5F0C6 /* bunny_simple.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bunny_simple.obj; sourceTree = "<group>"; };
+		C68658312DA6E50F00C5F0C6 /* dragon.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragon.obj; sourceTree = "<group>"; };
+		C68658322DA6E50F00C5F0C6 /* dragonStandRight.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight.conf; sourceTree = "<group>"; };
+		C68658332DA6E50F00C5F0C6 /* dragonStandRight_0.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_0.ply; sourceTree = "<group>"; };
+		C68658342DA6E50F00C5F0C6 /* dragonStandRight_24.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_24.ply; sourceTree = "<group>"; };
+		C68658352DA6E50F00C5F0C6 /* dragonStandRight_48.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_48.ply; sourceTree = "<group>"; };
+		C68658362DA6E50F00C5F0C6 /* dragonStandRight_72.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_72.ply; sourceTree = "<group>"; };
+		C68658372DA6E50F00C5F0C6 /* dragonStandRight_96.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_96.ply; sourceTree = "<group>"; };
+		C68658382DA6E50F00C5F0C6 /* dragonStandRight_120.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_120.ply; sourceTree = "<group>"; };
+		C68658392DA6E50F00C5F0C6 /* dragonStandRight_144.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_144.ply; sourceTree = "<group>"; };
+		C686583A2DA6E50F00C5F0C6 /* dragonStandRight_168.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_168.ply; sourceTree = "<group>"; };
+		C686583B2DA6E50F00C5F0C6 /* dragonStandRight_192.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_192.ply; sourceTree = "<group>"; };
+		C686583C2DA6E50F00C5F0C6 /* dragonStandRight_216.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_216.ply; sourceTree = "<group>"; };
+		C686583D2DA6E50F00C5F0C6 /* dragonStandRight_240.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_240.ply; sourceTree = "<group>"; };
+		C686583E2DA6E50F00C5F0C6 /* dragonStandRight_264.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_264.ply; sourceTree = "<group>"; };
+		C686583F2DA6E50F00C5F0C6 /* dragonStandRight_288.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_288.ply; sourceTree = "<group>"; };
+		C68658402DA6E50F00C5F0C6 /* dragonStandRight_312.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_312.ply; sourceTree = "<group>"; };
+		C68658412DA6E50F00C5F0C6 /* dragonStandRight_336.ply */ = {isa = PBXFileReference; lastKnownFileType = text; path = dragonStandRight_336.ply; sourceTree = "<group>"; };
+		C68658422DA6E50F00C5F0C6 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		C68AAADF2D9BB980006CF101 /* Primitives.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Primitives.h; sourceTree = "<group>"; };
 		C68BD4A52D9F7F9A0028B3E9 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		C68BD4A62D9F7FA50028B3E9 /* Scene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
@@ -130,6 +168,7 @@
 		C661D1CA2D9192C6007CC808 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				C65FC69C2DA93EDC00848871 /* MyImGui.h */,
 				C6B029B32DA28389009E622D /* Light.h */,
 				C68BD4A62D9F7FA50028B3E9 /* Scene.h */,
 				C68BD4A52D9F7F9A0028B3E9 /* Model.h */,
@@ -160,10 +199,87 @@
 		C661D1CC2D9192D1007CC808 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				C68658442DA6E50F00C5F0C6 /* models */,
 				C6CD2B2B2D941321002F5928 /* textures */,
 				C661D1CB2D9192CB007CC808 /* shaders */,
 			);
 			path = resources;
+			sourceTree = "<group>";
+		};
+		C68658272DA6E50F00C5F0C6 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				C686581B2DA6E50F00C5F0C6 /* bun.conf */,
+				C686581C2DA6E50F00C5F0C6 /* bun000.ply */,
+				C686581D2DA6E50F00C5F0C6 /* bun045.ply */,
+				C686581E2DA6E50F00C5F0C6 /* bun090.ply */,
+				C686581F2DA6E50F00C5F0C6 /* bun180.ply */,
+				C68658202DA6E50F00C5F0C6 /* bun270.ply */,
+				C68658212DA6E50F00C5F0C6 /* bun315.ply */,
+				C68658222DA6E50F00C5F0C6 /* chin.ply */,
+				C68658232DA6E50F00C5F0C6 /* ear_back.ply */,
+				C68658242DA6E50F00C5F0C6 /* README */,
+				C68658252DA6E50F00C5F0C6 /* top2.ply */,
+				C68658262DA6E50F00C5F0C6 /* top3.ply */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		C686582D2DA6E50F00C5F0C6 /* reconstruction */ = {
+			isa = PBXGroup;
+			children = (
+				C68658282DA6E50F00C5F0C6 /* bun_zipper.ply */,
+				C68658292DA6E50F00C5F0C6 /* bun_zipper_res2.ply */,
+				C686582A2DA6E50F00C5F0C6 /* bun_zipper_res3.ply */,
+				C686582B2DA6E50F00C5F0C6 /* bun_zipper_res4.ply */,
+				C686582C2DA6E50F00C5F0C6 /* README */,
+			);
+			path = reconstruction;
+			sourceTree = "<group>";
+		};
+		C68658302DA6E50F00C5F0C6 /* bunny */ = {
+			isa = PBXGroup;
+			children = (
+				C68658272DA6E50F00C5F0C6 /* data */,
+				C686582D2DA6E50F00C5F0C6 /* reconstruction */,
+				C686582E2DA6E50F00C5F0C6 /* bunny.obj */,
+				C686582F2DA6E50F00C5F0C6 /* bunny_simple.obj */,
+			);
+			path = bunny;
+			sourceTree = "<group>";
+		};
+		C68658432DA6E50F00C5F0C6 /* dragon_stand */ = {
+			isa = PBXGroup;
+			children = (
+				C68658312DA6E50F00C5F0C6 /* dragon.obj */,
+				C68658322DA6E50F00C5F0C6 /* dragonStandRight.conf */,
+				C68658332DA6E50F00C5F0C6 /* dragonStandRight_0.ply */,
+				C68658342DA6E50F00C5F0C6 /* dragonStandRight_24.ply */,
+				C68658352DA6E50F00C5F0C6 /* dragonStandRight_48.ply */,
+				C68658362DA6E50F00C5F0C6 /* dragonStandRight_72.ply */,
+				C68658372DA6E50F00C5F0C6 /* dragonStandRight_96.ply */,
+				C68658382DA6E50F00C5F0C6 /* dragonStandRight_120.ply */,
+				C68658392DA6E50F00C5F0C6 /* dragonStandRight_144.ply */,
+				C686583A2DA6E50F00C5F0C6 /* dragonStandRight_168.ply */,
+				C686583B2DA6E50F00C5F0C6 /* dragonStandRight_192.ply */,
+				C686583C2DA6E50F00C5F0C6 /* dragonStandRight_216.ply */,
+				C686583D2DA6E50F00C5F0C6 /* dragonStandRight_240.ply */,
+				C686583E2DA6E50F00C5F0C6 /* dragonStandRight_264.ply */,
+				C686583F2DA6E50F00C5F0C6 /* dragonStandRight_288.ply */,
+				C68658402DA6E50F00C5F0C6 /* dragonStandRight_312.ply */,
+				C68658412DA6E50F00C5F0C6 /* dragonStandRight_336.ply */,
+				C68658422DA6E50F00C5F0C6 /* README */,
+			);
+			path = dragon_stand;
+			sourceTree = "<group>";
+		};
+		C68658442DA6E50F00C5F0C6 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				C68658302DA6E50F00C5F0C6 /* bunny */,
+				C68658432DA6E50F00C5F0C6 /* dragon_stand */,
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 		C6CD2B2B2D941321002F5928 /* textures */ = {
@@ -381,28 +497,36 @@
 		C661D1B32D918EEE007CC808 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"/usr/local/include/**",
 					"/Users/earn/workspace/cg/lunaRendererGL/include/**",
 				);
 				LD_RUNPATH_SEARCH_PATHS = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		C661D1B42D918EEE007CC808 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"/usr/local/include/**",
 					"/Users/earn/workspace/cg/lunaRendererGL/include/**",
 				);
 				LD_RUNPATH_SEARCH_PATHS = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

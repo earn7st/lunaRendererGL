@@ -9,7 +9,8 @@ struct Vertex
     glm::vec3 normal;
     glm::vec2 texcoord;
     
-    Vertex();
+    Vertex(glm::vec3 &position, glm::vec3 &normal, glm::vec2 &texcoord)
+    : position(position), normal(normal), texcoord(texcoord) { };
     Vertex(const float* data);
 };
 #endif

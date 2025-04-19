@@ -8,6 +8,7 @@
 #include "Texture.h"
 #include "Light.h"
 #include "Shader.h"
+#include "Model.h"
 
 class Scene
 {
@@ -16,7 +17,7 @@ public:
     std::vector<Texture*> textures;
     std::vector<Material*> materials;
     std::vector<DirectionalLight*> directional_lights;
-    std::vector<Shader*> shaders;
+    std::vector<Model*> models;
     
     Scene() = default;
     ~Scene() = default;
@@ -25,9 +26,10 @@ public:
     void AddTexture(Texture *texture);
     void AddMaterial(Material *material);
     void AddDirectionalLight(DirectionalLight *light);
-    void AddShader(Shader *shader);
+    void AddModel(Model *model);
     
-    void SendLightsToShaders();
+    void SendLightsToShader(Shader *shader);
+    
     void BindTextures();
     
 private:

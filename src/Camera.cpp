@@ -108,6 +108,13 @@ void Camera::ProcessMouseScroll(float yoffset)
     UpdateCameraVectors();
 }
 
+void Camera::SendPositionToShader(Shader* shader) const
+{
+    (*shader).Use();
+    (*shader).SetVec3("viewPos", this->position);
+}
+
+// Private Functions
 void Camera::UpdateCameraVectors()
 {
     glm::vec3 direction;
