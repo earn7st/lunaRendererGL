@@ -117,11 +117,11 @@ void Mesh::UpdateModelMatrix()
     
     // Compute modelMatrix
     this->modelMatrix = translation * scale * rotation;
+    
 }
 
-void Mesh::UpdateMVP(const Camera& camera)
+void Mesh::SendMVPToShader(const Camera& camera)
 {
-    this->UpdateModelMatrix();
     (*this->shader).SetMat4("model", this->modelMatrix);
     (*this->shader).SetMat4("view", camera.GetViewMatrix());
     (*this->shader).SetMat4("proj", camera.GetProjMatrix());
@@ -130,7 +130,8 @@ void Mesh::UpdateMVP(const Camera& camera)
 void Mesh::Draw(const Camera& camera)
 {
     // Set Transform Matrix
-    this->UpdateMVP(camera);
+    this->UpdateModelMatrix();
+    this->SendMVPToShader(camera);
     
     // Set Material
     (*this->material).SendToShader(this->shader);
@@ -141,16 +142,35 @@ void Mesh::Draw(const Camera& camera)
     // Bind VAO
     glCall(glBindVertexArray(this->VAO));
     
-    // Render
-    //glCall(glDrawArrays(GL_TRIANGLES, 0, (GLsizei)this->vertices.size() * sizeof(Vertex)));
+    if (this->indices.empty())
+    {
+        glCall(glDrawArrays(GL_TRIANGLES, 0, (GLsizei)this->vertices.size() * sizeof(Vertex)));
+    }
+    else
+    {
+        glCall(glDrawElements(GL_TRIANGLES, (GLsizei)this->indices.size(), GL_UNSIGNED_INT, (GLvoid*)0));
+    }
+
+}
+
+void Mesh::Draw(const DirectionalLight& light)
+{
+    
+    this->UpdateModelMatrix();
+    (*this->shader).Use();
+    (*this->shader).SetMat4("model", this->modelMatrix);
+    
+    // Bind VAO
+    glCall(glBindVertexArray(this->VAO));
     
     if (this->indices.empty())
     {
         glCall(glDrawArrays(GL_TRIANGLES, 0, (GLsizei)this->vertices.size() * sizeof(Vertex)));
-    } else{
+    }
+    else
+    {
         glCall(glDrawElements(GL_TRIANGLES, (GLsizei)this->indices.size(), GL_UNSIGNED_INT, (GLvoid*)0));
     }
-
 }
 
 void Mesh::PrintInfo()

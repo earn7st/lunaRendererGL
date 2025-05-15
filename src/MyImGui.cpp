@@ -2,6 +2,7 @@
 
 #include "MyImGui.h"
 
+
 MyImGui::MyImGui(GLFWwindow* window, const char* glsl_version)
 : window(window), glsl_version(glsl_version)
 {
@@ -37,63 +38,79 @@ void MyImGui::Render()
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void MyImGui::AddModelAttribute(Model *model)
+void MyImGui::AddModelAttribute(Model* model)
 {
     ImGui_Model_Attribute attribute;
     attribute.model = model;
+    attribute.transform = model->GetTransform();
     this->model_attributes.push_back(attribute);
+}
+
+
+bool MyImGui::GetWantCaptureMouse()
+{
+    return this->wantCaptureMouse;
+}
+
+void MyImGui::UpdateModelAttributes()
+{
+    for (int i = 0; i < this->model_attributes.size(); i++)
+    {
+        Model* model = this->model_attributes[i].model;
+        model->SetTransform(this->model_attributes[i].transform);
+    }
 }
 
 void MyImGui::DrawCameraWidget(Camera *camera)
 {
     ImGui::Begin("Tool");
-    if (camera->GetMode() == EDIT)
-    {
-        ImGui::Text("CameraMode : EDIT");
-    }
-    else if(camera->GetMode() == FPS)
-    {
-        ImGui::Text("CameraMode : FPS");
-    }
+    
+    ImGuiIO& io = ImGui::GetIO();
+    this->wantCaptureMouse = io.WantCaptureMouse;
+    
+    if (camera->GetMode() == EDIT) { ImGui::Text("CameraMode[V]: EDIT"); }
+    else if(camera->GetMode() == FPS) { ImGui::Text("CameraMode[V]: FPS"); } 
+    
     ImGui::End();
 }
 
 void MyImGui::DrawModelWidget(Model *model)
 {
     
-    ImGui_Model_Attribute attribute;
+    ImGui_Model_Attribute* attribute = nullptr;
     
     for (int i = 0; i < this->model_attributes.size(); i++)
     {
-        if (this->model_attributes.model == model)
+        if (this->model_attributes[i].model == model)
         {
-            attribute = this->model_attributes[i];
+            attribute = &this->model_attributes[i];
             break;
         }
     }
     
-    ImGui::Begin("Model"); // Add model's name!!
+    ImGui::Begin(attribute->model->GetName().c_str()); // Add model's name!!
+
+    ImGuiIO &io = ImGui::GetIO();
+    this->wantCaptureMouse = io.WantCaptureMouse;
     
     // Scale
-    ImGui::Text("Scale: x = %.1f", &attribute.transform.scale.x);
-    ImGui::SameLine();
-    ImGui::Text("Scale: y = %.1f", &attribute.transform.scale.y);
-    ImGui::SameLine();
-    ImGui::Text("Scale: z = %.1f", &attribute.transform.scale.z);
+    ImGui::Text("Scale");
+    ImGui::SliderFloat("X##1", &(attribute->transform.scale[0]), 0.1, 5);
+    ImGui::SliderFloat("Y##1", &(attribute->transform.scale[1]), 0.1, 5);
+    ImGui::SliderFloat("Z##1", &(attribute->transform.scale[2]), 0.1, 5);
     
     // Translation
-    ImGui::Text("Translation: x = %.1f", &(attribute.transform.translation.x));
-    ImGui::SameLine();
-    ImGui::Text("Translation: y = %.1f", &attribute.transform.translation.y);
-    ImGui::SameLine();
-    ImGui::Text("Translation: z = %.1f", &attribute.transform.translation.z);
+    ImGui::Text("Translation");
+    ImGui::InputFloat("X##2", &(attribute->transform.translation[0]));
+    ImGui::InputFloat("Y##2", &(attribute->transform.translation[1]));
+    ImGui::InputFloat("Z##2", &(attribute->transform.translation[2]));
     
     // Rotation
-    ImGui::Text("Rotation: x = %.1f", &(attribute.transform.rotation.x));
-    ImGui::SameLine();
-    ImGui::Text("Rotation: y = %.1f", &attribute.transform.rotation.y);
-    ImGui::SameLine();
-    ImGui::Text("Rotation: z = %.1f", &attribute.transform.rotation.z);
+    ImGui::Text("Rotation");
+    ImGui::SliderFloat("X##3", &(attribute->transform.rotation[0]), -180, 180);
+    ImGui::SliderFloat("Y##3", &(attribute->transform.rotation[1]), -180, 180);
+    ImGui::SliderFloat("Z##3", &(attribute->transform.rotation[2]), -180, 180);
     
     ImGui::End();
 }
+

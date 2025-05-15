@@ -1,8 +1,6 @@
 #ifndef _RENDERER_H_
 #define _RENDERER_H_
 
-#include <iostream>
-
 #include "libs.h"
 
 #include "MyImGui.h"
@@ -28,14 +26,25 @@ public:
     
 // Modifiers
     void SetWindowShouldClose();
+    void SetShadowMapShader(Shader& shader);
     
 // Functions
+    // Input
     void ProcessInput(GLFWwindow *window);
     
+    // Main Rendering Function
     void Render(Scene &scene);
+    void ConfigureScreenViewport();
+    void BindScreenFramebuffer();
+   
+    // Shadow
+    void ConfigureShadowViewport();
+    void BindShadowFramebuffer();
+    void BindShadowTexture();
     
 // Static functions
 private:
+    
 //Variables
     // Window
     GLFWwindow* window;
@@ -63,6 +72,18 @@ private:
     // ImGui
     MyImGui imgui;
     const char* glsl_version = "#version 150";
+    
+    // Options
+    bool ENABLE_SHADOW = true;
+    bool ENABLE_PCF = false;
+    bool ENABLE_PCSS = false;
+    
+    // Shadows
+    const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+    unsigned int shadowMapFBO;
+    unsigned int shadowMapTexID;
+    unsigned int shadowMapTextureUnit = 15;
+    Shader* shadowMapShader;
     
     // Callback Wrapper
     class CallbackWrapper
@@ -94,6 +115,7 @@ private:
     void InitCamera();
     void InitCallbacks();
     void InitImGui();
+    void InitShadow();
     
     // Callback Implementations
     void FramebufferSizeCallback(GLFWwindow *window, int width, int height);

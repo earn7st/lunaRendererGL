@@ -7,22 +7,10 @@
 #include "Mesh.h"
 #include "Model.h"
 
-struct ImGui_Transform
-{
-    glm::vec3 scale = glm::vec3(0.f);
-    glm::vec3 translation = glm::vec3(0.f);
-    glm::vec3 rotation = glm::vec3(0.f);
-};
-
-struct ImGui_Material
-{
-    
-};
-
 struct ImGui_Model_Attribute
 {
     Model* model;
-    ImGui_Transform transform;
+    Transform transform;
     // ImGui_Material material;
 };
 
@@ -37,20 +25,27 @@ public:
     void Sleep();
     void NewFrame();
     void Render();
+
+    void AddModelAttribute(Model *model);
     
-    void AddModelAttribute(Model* model);
+    void UpdateShadowAttributes();
+    void UpdateModelAttributes();
     
-    void UpdateModelAttribute();
+    bool GetWantCaptureMouse();
     
     void DrawCameraWidget(Camera* camera);
     void DrawModelWidget(Model* model);
     
     
 private:
+
     const char* glsl_version;
     GLFWwindow* window;
     
+    bool wantCaptureMouse = false;
+    bool shadow = false;
     std::vector<ImGui_Model_Attribute> model_attributes;
+    
     
 };
 

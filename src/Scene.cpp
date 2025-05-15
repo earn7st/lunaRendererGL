@@ -6,6 +6,8 @@
 #include "Mesh.h"
 #include "Light.h"
 
+DirectionalLight* Scene::GetDirectionalLight(int i) { return this->directional_lights[i]; }
+
 void Scene::AddMesh(Mesh *mesh) { this->meshes.push_back(mesh); }
 
 void Scene::AddTexture(Texture *texture) { this->textures.push_back(texture); }
@@ -23,7 +25,7 @@ void Scene::AddModel(Model* model)
     }
 }
 
-void Scene::SendLightsToShader(Shader* shader)
+void Scene::SendDirectionalLightsToShader(Shader* shader)
 {
     // Directional
     for (int j = 0; j < this->directional_lights.size(); j++)
@@ -38,5 +40,13 @@ void Scene::BindTextures()
     for (int i = 0; i < this->textures.size(); i++)
     {
         (*this->textures[i]).Bind();
+    }
+}
+
+void Scene::UnbindTextures()
+{
+    for (int i = 0; i < this->textures.size(); i++)
+    {
+        (*this->textures[i]).Unbind();
     }
 }

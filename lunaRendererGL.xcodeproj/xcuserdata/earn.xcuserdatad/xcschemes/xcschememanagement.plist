@@ -6,6 +6,8 @@
 	<dict>
 		<key>lunaRendererGL.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
@@ -13,6 +15,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>C661D1AA2D918EEE007CC808</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C6C9FC822DB3C8CC007C31A4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

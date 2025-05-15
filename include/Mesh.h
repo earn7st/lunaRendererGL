@@ -8,6 +8,7 @@
 #include "Vertex.h"
 #include "Primitives.h"
 #include "Material.h"
+#include "Light.h"
 
 struct Transform
 {
@@ -39,7 +40,7 @@ private:
     void InitVAO();
     
     void UpdateModelMatrix();
-    void UpdateMVP(const Camera &camera);
+    void SendMVPToShader(const Camera &camera);
     
 public:
     
@@ -62,6 +63,7 @@ public:
     void SetTransform(Transform &transform);
     
     void Draw(const Camera& camera);
+    void Draw(const DirectionalLight& light);
     
     void PrintInfo();
     

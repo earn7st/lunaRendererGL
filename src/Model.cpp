@@ -7,6 +7,8 @@
 Model::Model(const std::string &pFile)
 {
     this->directory = pFile.substr(0, pFile.find_last_of('/'));
+    this->name = pFile.substr(pFile.find_last_of('/') + 1, pFile.length());
+    this->name = this->name.substr(0, this->name.find_last_of('.'));
     
     Assimp::Importer importer;
 
@@ -78,7 +80,7 @@ void Model::LoadMaterials(const aiScene* ai_scene)
             {
                 std::string texture_path(ai_texture_path.data);
                 std::string full_texture_path = this->directory + "/" + texture_path;
-                
+
                 material.SetDiffuseTex(inc_texture_unit);
                 
                 Texture texture(full_texture_path, GL_TEXTURE_2D, TEXTURE_TYPE_DIFFUSE, this->inc_texture_unit++);
@@ -140,7 +142,7 @@ void Model::LoadMesh(const aiMesh* ai_mesh, const unsigned int ai_mesh_index)
         glm::vec2 texcoord  = glm::vec2(ai_texcoord.x, ai_texcoord.y);
         
         Vertex vertex(pos, normal, texcoord);
-        
+
         Vertices.push_back(vertex);
     }
     
@@ -172,8 +174,6 @@ void Model::Draw(const Camera &camera)
         return ;
     }
     
-    // this->UpdateMaterialToAllMeshes();
-    
     // Bind Textures
     for (unsigned int i = 0; i < this->textures.size(); i++)
     {
@@ -197,6 +197,39 @@ void Model::Draw(const Camera &camera)
     }
 }
 
+void Model::Draw(const DirectionalLight &light)
+{
+    
+    if (this->shader == nullptr)
+    {
+        std::cout << "Model does not have a shader for Drawing Shadow Map!!" << std::endl;
+        return ;
+    }
+    
+    this->UpdateTransformToAllMeshes();
+    
+    for (unsigned int i = 0; i < this->meshes.size(); i++)
+    {
+        Mesh &mesh = meshes[i];
+        mesh.Draw(light);
+    }
+}
+
+void Model::Scale(const glm::vec3 &scale)
+{
+    this->transform.scale = scale;
+}
+
+void Model::Translate(const glm::vec3 &translation)
+{
+    this->transform.translation = translation;
+}
+
+void Model::Rotate(const glm::vec3 &rotation)
+{
+    this->transform.rotation = rotation;
+}
+
 void Model::UpdateShaderToAllMeshes()
 {
     for (int i = 0; i < this->meshes.size(); i++)
@@ -215,7 +248,18 @@ void Model::UpdateMaterialToAllMeshes(Material* material)
     }
 }
 
+void Model::UpdateTransformToAllMeshes()
+{
+    for (int i = 0; i < this->meshes.size(); i++)
+    {
+        Mesh &mesh = this->meshes[i];
+        mesh.SetTransform(this->transform);
+    }
+}
+
 // Accessors
+std::string Model::GetName() { return this->name; }
+
 size_t Model::GetNumOfMeshes() { return this->meshes.size(); }
 
 size_t Model::GetNumOfMaterials() { return this->materials.size(); }
@@ -230,6 +274,8 @@ Material* Model::GetMaterial(unsigned int index) { return &this->materials[index
 
 Shader* Model::GetShader() { return this->shader; }
 
+Transform Model::GetTransform() { return this->transform; }
+
 // Modifiers
 void Model::SetShader(Shader *shader)
 {
@@ -241,15 +287,6 @@ void Model::SetTransform(Transform &transform)
 {
     this->transform = transform;
     this->UpdateTransformToAllMeshes();
-}
-
-void Model::UpdateTransformToAllMeshes()
-{
-    for (int i = 0; i < this->meshes.size(); i++)
-    {
-        Mesh &mesh = this->meshes[i];
-        mesh.SetTransform(this->transform);
-    }
 }
 
 void Model::PrintMeshesInfo()

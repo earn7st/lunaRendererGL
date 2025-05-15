@@ -67,7 +67,7 @@ private:
     const glm::vec3 worldUp  = glm::vec3(0.0f, 1.0f, 0.0f);
     
     float nearPlane = 0.1f;
-    float farPlane = 20.0f;
+    float farPlane = 50.0f;
     
     float yaw   = -90.0f;
     float pitch =   0.0f;
@@ -82,7 +82,7 @@ private:
     //EDIT
     bool spinState = false;
     bool dragState = false;
-    float dragVelocity = 0.05f;
+    float dragVelocity = 0.005f;
     
     // FPS
     float movementSpeed;

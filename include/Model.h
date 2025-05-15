@@ -10,11 +10,13 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "Light.h"
 
 class Model
 {
 private:
     std::string directory;
+    std::string name;
     
     std::vector<Mesh> meshes;
     std::vector<Material> materials;
@@ -22,7 +24,7 @@ private:
     
     Transform transform;
     
-    Shader *shader;
+    Shader* shader;
     
     unsigned int inc_texture_unit;
     
@@ -34,11 +36,15 @@ public:
     Model(const std::string &pFile);
     ~Model() {};
     
-    void Draw(const Camera &camera);
+    void Draw(const Camera& camera);
+    void Draw(const DirectionalLight &light);
     
-    void UpdateShaderToAllMeshes();
+    void Scale(const glm::vec3 &scale);
+    void Translate(const glm::vec3 &translation);
+    void Rotate(const glm::vec3 &rotation);
     
     // Accessors
+    std::string GetName();
     size_t GetNumOfMeshes();
     size_t GetNumOfMaterials();
     size_t GetNumOfTextures();
@@ -46,14 +52,15 @@ public:
     Texture* GetTexture(unsigned int index);
     Material* GetMaterial(unsigned int index);
     Shader* GetShader();
+    Transform GetTransform();
     
     // Modifers
     void SetShader(Shader *shader);
     void SetTransform(Transform &transform);
     
+    void UpdateShaderToAllMeshes();
     void UpdateTransformToAllMeshes();
     void UpdateMaterialToAllMeshes(Material* material); // for customization
-    
     
     void PrintMeshesInfo();
     void PrintMaterialsInfo();

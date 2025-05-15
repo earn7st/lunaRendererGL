@@ -17,13 +17,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C661D1A92D918EEE007CC808 /* CopyFiles */ = {
+		C661D1A92D918EEE007CC808 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -31,6 +32,10 @@
 /* Begin PBXFileReference section */
 		C61BA8772D9A1CCC003EA6CE /* Mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
 		C61BA87A2D9A1D85003EA6CE /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
+		C64440022DB50E520082F58C /* singleColor.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = singleColor.vs; sourceTree = "<group>"; };
+		C64440032DB50E6B0082F58C /* singleColor.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = singleColor.fs; sourceTree = "<group>"; };
+		C64440042DB529ED0082F58C /* diffuse.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = diffuse.vs; sourceTree = "<group>"; };
+		C64440052DB529FB0082F58C /* diffuse.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = diffuse.fs; sourceTree = "<group>"; };
 		C65AE4EC2D98E63700A988AB /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		C65AE4ED2D98E6DE00A988AB /* Renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 		C65FC69C2DA93EDC00848871 /* MyImGui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyImGui.h; sourceTree = "<group>"; };
@@ -87,12 +92,12 @@
 		C68BD4A52D9F7F9A0028B3E9 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		C68BD4A62D9F7FA50028B3E9 /* Scene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		C69545252D9958AD001E79AC /* Material.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = Material.h; sourceTree = "<group>"; };
-		C695F00E2D923AA80003E4BD /* default.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = default.vs; sourceTree = "<group>"; };
-		C695F0122D9266AE0003E4BD /* default.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = default.fs; sourceTree = "<group>"; };
 		C6B029B32DA28389009E622D /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		C6B40A8F2D954D95000A73AB /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
 		C6B40A902D955D7C000A73AB /* container2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2.png; sourceTree = "<group>"; };
 		C6B40A912D955DA9000A73AB /* container2_specular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2_specular.png; sourceTree = "<group>"; };
+		C6BEC1722DCDC714005D5F82 /* shadowMap.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shadowMap.vs; sourceTree = "<group>"; };
+		C6BEC1732DCDC72B005D5F82 /* shadowMap.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shadowMap.fs; sourceTree = "<group>"; };
 		C6CD2B2C2D94233C002F5928 /* container.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = container.jpg; sourceTree = "<group>"; };
 		C6E829292D9640C700A908D5 /* imconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imconfig.h; sourceTree = "<group>"; };
 		C6E8292A2D9640C700A908D5 /* imgui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui.h; sourceTree = "<group>"; };
@@ -190,8 +195,12 @@
 		C661D1CB2D9192CB007CC808 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				C695F0122D9266AE0003E4BD /* default.fs */,
-				C695F00E2D923AA80003E4BD /* default.vs */,
+				C6BEC1732DCDC72B005D5F82 /* shadowMap.fs */,
+				C6BEC1722DCDC714005D5F82 /* shadowMap.vs */,
+				C64440052DB529FB0082F58C /* diffuse.fs */,
+				C64440042DB529ED0082F58C /* diffuse.vs */,
+				C64440032DB50E6B0082F58C /* singleColor.fs */,
+				C64440022DB50E520082F58C /* singleColor.vs */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -319,7 +328,7 @@
 			buildPhases = (
 				C661D1A82D918EEE007CC808 /* Frameworks */,
 				C661D1A72D918EEE007CC808 /* Sources */,
-				C661D1A92D918EEE007CC808 /* CopyFiles */,
+				C661D1A92D918EEE007CC808 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -386,7 +395,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -432,7 +441,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -447,7 +456,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -487,7 +496,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -501,11 +510,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/include/**",
-					"/Users/earn/workspace/cg/lunaRendererGL/include/**",
+					/usr/local/include,
+					/Users/earn/workspace/cg/lunaRendererGL/include,
 				);
 				LD_RUNPATH_SEARCH_PATHS = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -519,11 +528,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/include/**",
-					"/Users/earn/workspace/cg/lunaRendererGL/include/**",
+					/usr/local/include,
+					/Users/earn/workspace/cg/lunaRendererGL/include,
 				);
 				LD_RUNPATH_SEARCH_PATHS = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

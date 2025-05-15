@@ -29,6 +29,7 @@ Renderer::Renderer(const char* title,
     this->InitCamera();
     this->InitCallbacks();
     this->InitImGui();
+    this->InitShadow();
     
     this->lastX = this->WINDOW_WIDTH  / 2;
     this->lastY = this->WINDOW_HEIGHT / 2;
@@ -52,26 +53,8 @@ int Renderer::GetWindowShouldClose() { return glfwWindowShouldClose(this->window
 // Modifiers
 void Renderer::SetWindowShouldClose() { glfwSetWindowShouldClose(this->window, GL_TRUE); }
 
+void Renderer::SetShadowMapShader(Shader &shader) { this->shadowMapShader = &shader; }
 // Functions
-void Renderer::ProcessInput(GLFWwindow* window)
-{
-    if(camera.GetMode() == FPS)
-    {
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            camera.ProcessKeyboard(FORWARD, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            camera.ProcessKeyboard(BACKWARD, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-            camera.ProcessKeyboard(LEFT, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-            camera.ProcessKeyboard(RIGHT, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-            camera.ProcessKeyboard(DOWN, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-            camera.ProcessKeyboard(UP, deltaTime);
-    }
-}
-
 void Renderer::Render(Scene &scene)
 {
 
@@ -86,10 +69,10 @@ void Renderer::Render(Scene &scene)
         glfwPollEvents();
         
         float currentFrame = static_cast<float>(glfwGetTime());
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        this->deltaTime = currentFrame - this->lastFrame;
+        this->lastFrame = currentFrame;
         
-        ProcessInput(this->window);
+        this->ProcessInput(this->window);
         
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -101,36 +84,82 @@ void Renderer::Render(Scene &scene)
         }
         
         this->imgui.NewFrame();
-        
         this->imgui.DrawCameraWidget(&this->camera);
         
-        // Draw Models in this Scene
-        for (int i = 0; i < scene.models.size(); i++)
+        if(this->ENABLE_SHADOW)
         {
+            // Pass 1: Render Shadow Map
+            DirectionalLight &main_light = *scene.directional_lights[0];
+            glm::mat4 lightVP = main_light.CalcLightVP(10, 0.001, 30);
+            this->ConfigureShadowViewport();
+            this->BindShadowFramebuffer();
+            glClear(GL_DEPTH_BUFFER_BIT);
+            for (int j = 0; j < scene.models.size(); j++)
+            {
+                Model& model = *scene.models[j];
+                Shader* shader = model.GetShader();
+                
+                model.SetShader(this->shadowMapShader);
+                (*this->shadowMapShader).Use();
+                (*this->shadowMapShader).SetMat4("lightVP", lightVP);
+                
+                model.Draw(main_light);
+                    
+                model.SetShader(shader);
+            }
             
-            Model &model = *scene.models[i];
+            // Pass 2: Draw models in scene
             
-            scene.SendLightsToShader(model.GetShader());
+            this->ConfigureScreenViewport();
+            this->BindScreenFramebuffer();
+            for (int j = 0; j < scene.models.size(); j++)
+            {
+                Model& model = *scene.models[j];
+                Shader* shader = model.GetShader();
+                
+                this->BindShadowTexture();
+                shader->Use();
+                shader->SetInt("shadowMap", this->shadowMapTextureUnit);
+                shader->SetMat4("lightVP", lightVP);
+                
+                scene.SendDirectionalLightsToShader(model.GetShader());
+                
+                // ImGui
+                this->imgui.DrawModelWidget(&model);
+                imgui.UpdateModelAttributes();
+                model.Draw(this->camera);
+            }
             
-            model.Draw(this->camera);
         }
+        else
+        {
+            for (int j = 0; j < scene.models.size(); j++)
+            {
+                Model &model = *scene.models[j];
+                scene.SendDirectionalLightsToShader(model.GetShader());
+                
+                // ImGui
+                this->imgui.DrawModelWidget(&model);
+                imgui.UpdateModelAttributes();
+                model.Draw(this->camera);
+            }
+        }
+        
+       
         
         imgui.Render();
         
         /*
         // Bind Textures (for meshes not from models)
         scene.BindTextures();
-        
         //Draw Meshes in this Scene
-        
         for (int i = 0; i < scene.meshes.size(); i++)
         {
             Mesh &mesh = *scene.meshes[i];
-            
             scene.SendLightsToShader(mesh.GetShader());
-            
             mesh.Draw(this->camera);
         }
+        scene.UnbindTextures();
         */
         
         glfwSwapBuffers(window);
@@ -138,6 +167,19 @@ void Renderer::Render(Scene &scene)
     
 }
 
+void Renderer::ConfigureShadowViewport() { glViewport(0, 0, this->SHADOW_WIDTH, this->SHADOW_HEIGHT); }
+void Renderer::ConfigureScreenViewport() { glViewport(0, 0, this->WINDOW_WIDTH, this->WINDOW_HEIGHT); }
+void Renderer::BindShadowFramebuffer() { glBindFramebuffer(GL_FRAMEBUFFER, this->shadowMapFBO); }
+void Renderer::BindScreenFramebuffer() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
+
+void Renderer::BindShadowTexture()
+{
+    if(this->shadowMapTextureUnit == -1) return ;
+     
+    glCall(glActiveTexture(GL_TEXTURE0 + this->shadowMapTextureUnit));
+    glCall(glBindTexture(GL_TEXTURE_2D, this->shadowMapTexID));
+}
+  
 // Private
 // Init
 void Renderer::InitGLFW()
@@ -184,9 +226,9 @@ void Renderer::InitOpenGLOptions()
 {
     glEnable(GL_DEPTH_TEST);
     
-    //glEnable(GL_CULL_FACE);
-    //glCullFace(GL_BACK);
-    //glFrontFace(GL_CCW);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -215,6 +257,27 @@ void Renderer::InitImGui()
     this->imgui = MyImGui(this->window, this->glsl_version);
 }
 
+void Renderer::InitShadow()
+{
+    // Shadow FBO
+    glGenFramebuffers(1, &this->shadowMapFBO);
+    
+    // Shadow Texture
+    glGenTextures(1, &this->shadowMapTexID);
+    glBindTexture(GL_TEXTURE_2D, this->shadowMapTexID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+                 SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, this->shadowMapFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, this->shadowMapTexID, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    
+}
+
 // Private Class : CallbackWrapper
 // definition for static variable
 Renderer* Renderer::CallbackWrapper::renderer = nullptr;
@@ -234,15 +297,15 @@ void Renderer::CallbackWrapper::scroll_callback(GLFWwindow *window, double xoffs
 void Renderer::FramebufferSizeCallback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
-    camera.SetAspectRatio(float(width)/float(height));
+    this->camera.SetAspectRatio(float(width)/float(height));
 }
 
 void Renderer::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if(key == GLFW_KEY_V && action == GLFW_PRESS)
     {
-        camera.SwitchMode(window);
-        firstMouse = true;
+        this->camera.SwitchMode(window);
+        this->firstMouse = true;
         return ;
     }
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -254,72 +317,90 @@ void Renderer::KeyCallback(GLFWwindow* window, int key, int scancode, int action
 
 void Renderer::MousePosCallback(GLFWwindow* window, double xpos, double ypos)
 {
-    if(camera.GetMode() == EDIT && camera.GetDragState() == true)
+    if(this->camera.GetMode() == EDIT && this->camera.GetDragState() == true)
     {
-        if(firstMouse)
+        if(this->firstMouse)
         {
-            lastX = xpos;
-            lastY = ypos;
-            firstMouse = false;
+            this->lastX = xpos;
+            this->lastY = ypos;
+            this->firstMouse = false;
         }
-        float xoffset = xpos - lastX;
-        float yoffset = lastY - ypos;
-        lastX = xpos;
-        lastY = ypos;
+        float xoffset = xpos - this->lastX;
+        float yoffset = this->lastY - ypos;
+        this->lastX = xpos;
+        this->lastY = ypos;
         
-        camera.ProcessMouseDrag(xoffset, yoffset);
+        this->camera.ProcessMouseDrag(-xoffset, -yoffset);
     }
     
-    if((camera.GetMode() == EDIT && camera.GetSpinState() == true) || camera.GetMode() == FPS)
+    if((this->camera.GetMode() == EDIT && this->camera.GetSpinState() == true) || this->camera.GetMode() == FPS)
     {
-        if(firstMouse)
+        if(this->firstMouse)
         {
-            lastX = xpos;
-            lastY = ypos;
-            firstMouse = false;
+            this->lastX = xpos;
+            this->lastY = ypos;
+            this->firstMouse = false;
         }
         
-        float xoffset = xpos - lastX;
-        float yoffset = lastY - ypos;
+        float xoffset = xpos - this->lastX;
+        float yoffset = this->lastY - ypos;
             
-        lastX = xpos;
-        lastY = ypos;
+        this->lastX = xpos;
+        this->lastY = ypos;
             
-        camera.ProcessMouseSpin(xoffset, yoffset);
+        this->camera.ProcessMouseSpin(xoffset, yoffset);
     }
 }
 
 void Renderer::MouseButtonCallback(GLFWwindow *window, int button, int action, int mods)
 {
-    if (camera.GetMode() == EDIT)
+    if (this->camera.GetMode() == EDIT)
     {
-        /*
-        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+        
+        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && this->imgui.GetWantCaptureMouse() == false)
         {
-            camera.SetDragState(true);
+            this->camera.SetDragState(true);
         }
         else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
         {
-            camera.SetDragState(false);
-            firstMouse = true;
+            this->camera.SetDragState(false);
+            this->firstMouse = true;
         }
-        */
         if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
         {
-            camera.SetSpinState(true);
+            this->camera.SetSpinState(true);
         }
         else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
         {
-            camera.SetSpinState(false);
-            firstMouse = true;
+            this->camera.SetSpinState(false);
+            this->firstMouse = true;
         }
     }
 }
 
 void Renderer::ScrollCallback(GLFWwindow *window, double xoffset, double yoffset)
 {
-    camera.ProcessMouseScroll(static_cast<float>(yoffset));
+    this->camera.ProcessMouseScroll(static_cast<float>(yoffset));
+}
+
+void Renderer::ProcessInput(GLFWwindow* window)
+{
+    if(this->camera.GetMode() == FPS)
+    {
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            this->camera.ProcessKeyboard(FORWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            this->camera.ProcessKeyboard(BACKWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            this->camera.ProcessKeyboard(LEFT, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            this->camera.ProcessKeyboard(RIGHT, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+            this->camera.ProcessKeyboard(DOWN, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+            this->camera.ProcessKeyboard(UP, deltaTime);
+    }
 }
 
 
-
+    

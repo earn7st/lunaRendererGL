@@ -22,15 +22,19 @@ public:
     Scene() = default;
     ~Scene() = default;
     
+    size_t GetDirectionalLightCount();
+    DirectionalLight* GetDirectionalLight(int i);
+    
     void AddMesh(Mesh *mesh);
     void AddTexture(Texture *texture);
     void AddMaterial(Material *material);
     void AddDirectionalLight(DirectionalLight *light);
     void AddModel(Model *model);
     
-    void SendLightsToShader(Shader *shader);
+    void SendDirectionalLightsToShader(Shader* shader);
     
     void BindTextures();
+    void UnbindTextures();
     
 private:
     
